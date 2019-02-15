@@ -1,0 +1,73 @@
+/*------------- #STUNNING-HEADER --------------*/
+
+.crumina-stunning-header {
+  position: relative;
+  padding: 40px 0;
+
+  .stunning-header-content-wrap {
+	position: relative;
+	z-index: 5;
+  }
+}
+
+.stunning-content-item {
+  & > *:last-child {
+	margin-bottom: 0;
+  }
+
+  & + .stunning-content-item {
+	margin-top: 2em;
+  }
+}
+
+.stunning-header-img-bottom {
+  position: relative;
+  z-index: 5;
+  margin-top: 2em;
+}
+
+.stunning-header--content-center {
+  .stunning-header-content-wrap {
+	text-align: center;
+	width: 60%;
+	margin: 0 auto;
+  }
+
+  .stunning-header-img-bottom {
+	text-align: center;
+  }
+}
+
+.stunning-header--content-right {
+  .stunning-header-content-wrap {
+	text-align: right;
+  }
+
+  .stunning-header-img-bottom {
+	text-align: right;
+  }
+}
+
+.crumina-heading-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.crumina-stunning-header--with-animation {
+  .crumina-heading-background {
+	background: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-repeat: repeat-x;
+  }
+
+  &[data-animate-type="top-to-bottom"] {
+	.crumina-heading-background {
+	  background-attachment: fixed;
+	  background-repeat: no-repeat;
+	}
+  }
+}
