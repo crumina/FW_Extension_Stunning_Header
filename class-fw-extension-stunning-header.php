@@ -156,4 +156,9 @@ class FW_Extension_Stunning_Header extends FW_Extension {
         return fw_render_view( $full_path, $view_variables, $return );
     }
 
+    public static function customizerScripts(){
+        $ext = fw_ext( 'stunning-header' );
+        wp_enqueue_style( 'crumina-stunning-header-customizer', $ext->locate_URI( '/static/css/stunning-header-customizer.css' ), array(), $ext->manifest->get_version() );
+    }
+    
 }

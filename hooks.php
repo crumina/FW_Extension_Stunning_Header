@@ -1,5 +1,7 @@
 <?php
 
+add_action( 'customize_controls_enqueue_scripts', 'FW_Extension_Stunning_Header::customizerScripts' );
+
 //Add prefixes to plugins tabs
 add_filter( 'crumina_options_stunning_header_plugin_tab', '_filter_crumina_options_stunning_header_plugin_tab', 10, 2 );
 
