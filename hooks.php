@@ -2,19 +2,29 @@
 
 add_action( 'customize_controls_enqueue_scripts', 'FW_Extension_Stunning_Header::customizerScripts' );
 
+//Update visibility option on settings page
+add_filter( 'crumina_options_stunning_header_visibility', '_filter_crumina_options_stunning_header_visibility', 10, 2 );
+
+function _filter_crumina_options_stunning_header_visibility( $options ) {
+    unset( $options[ 'choices' ][ 'default' ] );
+    $options[ 'value' ] = 'yes';
+
+    return $options;
+}
+
 //Add prefixes to plugins tabs
 add_filter( 'crumina_options_stunning_header_plugin_tab', '_filter_crumina_options_stunning_header_plugin_tab', 10, 2 );
 
 function _filter_crumina_options_stunning_header_plugin_tab( $options, $tab ) {
     $filtered = array();
-    
+
     foreach ( $options as $key => $option ) {
-        if(isset($option['picker']) && is_string($option['picker'])){
-            $option['picker'] = "{$tab}_{$option['picker']}";
+        if ( isset( $option[ 'picker' ] ) && is_string( $option[ 'picker' ] ) ) {
+            $option[ 'picker' ] = "{$tab}_{$option[ 'picker' ]}";
         }
-        $filtered["{$tab}_{$key}"] = $option;
+        $filtered[ "{$tab}_{$key}" ] = $option;
     }
-    
+
     return $filtered;
 }
 
@@ -34,6 +44,8 @@ add_filter( 'fw_settings_options', '_filter_fw_ext_stunning_header_crumina_setti
 function _filter_fw_ext_stunning_header_crumina_settings( $options ) {
     $ext = fw_ext( 'stunning-header' );
 
+    $t = $ext->get_options( 'settings' );
+    
     return array_merge( $options, $ext->get_options( 'settings' ) );
 }
 
@@ -53,4 +65,3 @@ function _filter_fw_ext_stunning_header_render() {
     $ext = fw_ext( 'stunning-header' );
     $ext->render();
 }
-

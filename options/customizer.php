@@ -12,7 +12,7 @@ $options = array(
         'options' => array(
             'general'     => array(
                 'title'   => esc_html__( 'General', 'crumina' ),
-                'options' => $ext->get_options( 'partials/styles' ),
+                'options' => apply_filters( 'crumina_options_stunning_header_plugin_tab', $ext->get_options( 'partials/customizer-tab' ), 'general' ),
             ),
             'woocommerce' => array(
                 'title'   => esc_html__( 'WooCommerce', 'crumina' ),

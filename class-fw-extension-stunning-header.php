@@ -13,7 +13,15 @@ class FW_Extension_Stunning_Header extends FW_Extension {
     public function render() {
         $ext = fw_ext( 'stunning-header' );
 
-        $visibility = $ext->get_option_final( 'header-stunning-visibility', 'yes' );
+        $visibility = $ext->get_option_final( 'general_header-stunning-visibility', 'yes' );
+
+        if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
+            $visibility = $ext->get_option_final( 'woocommerce_header-stunning-visibility', 'yes' );
+        } elseif ( function_exists( 'tribe_is_event_query' ) && tribe_is_event_query() ) {
+            $visibility = $ext->get_option_final( 'events_header-stunning-visibility', 'yes' );
+        } elseif ( function_exists( 'bp_current_component' ) && bp_current_component() ) {
+            $visibility = $ext->get_option_final( 'buddypress_header-stunning-visibility', 'yes' );
+        }
 
         if ( $visibility !== 'yes' ) {
             return;
@@ -21,30 +29,26 @@ class FW_Extension_Stunning_Header extends FW_Extension {
 
         $classes = apply_filters( 'fw_ext_stunning_header_container_classes', array( 'crumina-stunning-header' ) );
 
-        $ctype_visibility = $ext->get_option_final( 'header-stunning-visibility', 'default', array( 'final-source' => 'current-type' ) );
-
-        $picker = $ext->get_option_final( 'settings-header-stunning-content-picker', array() );
-
         $bg_image_default = 'url(' . get_template_directory_uri() . '/images/header-stunning-1.png)';
 
         $customize_content = $ext->get_option_final( 'header-stunning-customize/yes/header-stunning-customize-content', array() );
-        $customize_styles  = $ext->get_option_final( 'header-stunning-customize/yes/header-stunning-customize-styles', array() );
-
-        if ( fw_akg( 'customize', $customize_content, 'no' ) === 'yes' && $ctype_visibility !== 'default' ) {
+        if ( fw_akg( 'customize', $customize_content, 'no' ) === 'yes' ) {
             $bottom_image     = fw_akg( 'yes/header-stunning-content-popup/stunning_bottom_image/url', $customize_content, '' );
             $title_show       = fw_akg( 'yes/header-stunning-content-popup/stunning_title_show/show', $customize_content, 'yes' );
             $breadcrumbs_show = fw_akg( 'yes/header-stunning-content-popup/stunning_breadcrumbs_show', $customize_content, 'yes' );
             $title_text       = fw_akg( 'yes/header-stunning-content-popup/stunning_title_show/yes/title', $customize_content, '' );
             $text             = fw_akg( 'yes/header-stunning-content-popup/stunning_text', $customize_content, '' );
         } else {
-            $bottom_image     = fw_akg( 'yes/stunning_bottom_image/url', $picker, '' );
-            $title_show       = fw_akg( 'yes/stunning_title_show/show', $picker, 'yes' );
-            $breadcrumbs_show = fw_akg( 'yes/stunning_breadcrumbs_show', $picker, 'yes' );
-            $title_text       = fw_akg( 'yes/stunning_title_show/yes/title', $picker, '' );
-            $text             = fw_akg( 'yes/stunning_text', $picker, '' );
+            $picker           = fw_akg( 'yes', $visibility, '' );
+            $bottom_image     = fw_akg( 'stunning_bottom_image/url', $picker, '' );
+            $title_show       = fw_akg( 'stunning_title_show/show', $picker, 'yes' );
+            $breadcrumbs_show = fw_akg( 'stunning_breadcrumbs_show', $picker, 'yes' );
+            $title_text       = fw_akg( 'stunning_title_show/yes/title', $picker, '' );
+            $text             = fw_akg( 'stunning_text', $picker, '' );
         }
 
-        if ( fw_akg( 'customize', $customize_styles, 'no' ) === 'yes' && $ctype_visibility !== 'default' ) {
+        $customize_styles = $ext->get_option_final( 'header-stunning-customize/yes/header-stunning-customize-styles', array() );
+        if ( fw_akg( 'customize', $customize_styles, 'no' ) === 'yes' ) {
             $text_align      = fw_akg( 'yes/header-stunning-styles-popup/stunning_text_align', $customize_styles, '' );
             $bg_animate      = fw_akg( 'yes/header-stunning-styles-popup/stunning_bg_animate', $customize_styles, 'yes' );
             $bg_animate_type = fw_akg( 'yes/header-stunning-styles-popup/stunning_bg_animate_picker/yes/stunning_bg_animate_type', $customize_styles, 'top-to-bottom' );
@@ -156,9 +160,9 @@ class FW_Extension_Stunning_Header extends FW_Extension {
         return fw_render_view( $full_path, $view_variables, $return );
     }
 
-    public static function customizerScripts(){
+    public static function customizerScripts() {
         $ext = fw_ext( 'stunning-header' );
         wp_enqueue_style( 'crumina-stunning-header-customizer', $ext->locate_URI( '/static/css/stunning-header-customizer.css' ), array(), $ext->manifest->get_version() );
     }
-    
+
 }

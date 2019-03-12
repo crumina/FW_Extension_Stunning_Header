@@ -16,7 +16,7 @@ $options = array(
                 'title'    => esc_html__( 'General', 'crumina' ),
                 'type'     => 'tab',
                 'priority' => 'high',
-                'options'  => $ext->get_options( 'partials/settings-tab' ),
+                'options'  => apply_filters( 'crumina_options_stunning_header_plugin_tab', $ext->get_options( 'partials/settings-tab' ), 'general' ),
             ),
             'woocommerce' => array(
                 'title'    => esc_html__( 'WooCommerce', 'crumina' ),

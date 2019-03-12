@@ -7,7 +7,7 @@ if ( !defined( 'FW' ) ) {
 $ext = fw_ext( 'stunning-header' );
 
 $options = array(
-    'header-stunning-visibility' => $ext->get_options( 'partials/visibility' ), // header-stunning-visibility
+    'header-stunning-visibility' => apply_filters( 'crumina_options_stunning_header_visibility', $ext->get_options( 'partials/visibility' ) ),
     'header-stunning-customize'  => array(
         'type'    => 'multi-picker',
         'picker'  => 'header-stunning-visibility',
