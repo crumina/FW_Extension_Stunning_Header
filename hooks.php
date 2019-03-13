@@ -44,8 +44,6 @@ add_filter( 'fw_settings_options', '_filter_fw_ext_stunning_header_crumina_setti
 function _filter_fw_ext_stunning_header_crumina_settings( $options ) {
     $ext = fw_ext( 'stunning-header' );
 
-    $t = $ext->get_options( 'settings' );
-    
     return array_merge( $options, $ext->get_options( 'settings' ) );
 }
 

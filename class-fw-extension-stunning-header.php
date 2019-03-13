@@ -11,17 +11,24 @@ class FW_Extension_Stunning_Header extends FW_Extension {
     }
 
     public function render() {
+        $prefix = '';
         $ext = fw_ext( 'stunning-header' );
 
-        $visibility = $ext->get_option_final( 'general_header-stunning-visibility', 'yes' );
-
-        if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
-            $visibility = $ext->get_option_final( 'woocommerce_header-stunning-visibility', 'yes' );
+         if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
+             $prefix = 'woocommerce_';
         } elseif ( function_exists( 'tribe_is_event_query' ) && tribe_is_event_query() ) {
-            $visibility = $ext->get_option_final( 'events_header-stunning-visibility', 'yes' );
+             $prefix = 'events_';
         } elseif ( function_exists( 'bp_current_component' ) && bp_current_component() ) {
-            $visibility = $ext->get_option_final( 'buddypress_header-stunning-visibility', 'yes' );
+             $prefix = 'buddypress_';
         }
+        
+        $visibility       = $ext->get_option_final( "{$prefix}header-stunning-visibility", 'yes' );
+        $ctype_visibility = $ext->get_option_final( "{$prefix}header-stunning-visibility", 'default', array( 'final-source' => 'current-type' ) );
+       
+        $content    = $ext->get_option( "{$prefix}header-stunning-content", array(), 'settings' );
+        $customizer = $ext->get_option( "{$prefix}header-stunning-customizer", array(), 'customizer' );
+
+        $ttt = 555;
 
         if ( $visibility !== 'yes' ) {
             return;
@@ -39,12 +46,11 @@ class FW_Extension_Stunning_Header extends FW_Extension {
             $title_text       = fw_akg( 'yes/header-stunning-content-popup/stunning_title_show/yes/title', $customize_content, '' );
             $text             = fw_akg( 'yes/header-stunning-content-popup/stunning_text', $customize_content, '' );
         } else {
-            $picker           = fw_akg( 'yes', $visibility, '' );
-            $bottom_image     = fw_akg( 'stunning_bottom_image/url', $picker, '' );
-            $title_show       = fw_akg( 'stunning_title_show/show', $picker, 'yes' );
-            $breadcrumbs_show = fw_akg( 'stunning_breadcrumbs_show', $picker, 'yes' );
-            $title_text       = fw_akg( 'stunning_title_show/yes/title', $picker, '' );
-            $text             = fw_akg( 'stunning_text', $picker, '' );
+            $bottom_image     = fw_akg( 'stunning_bottom_image/url', $content, '' );
+            $title_show       = fw_akg( 'stunning_title_show/show', $content, 'yes' );
+            $breadcrumbs_show = fw_akg( 'stunning_breadcrumbs_show', $content, 'yes' );
+            $title_text       = fw_akg( 'stunning_title_show/yes/title', $content, '' );
+            $text             = fw_akg( 'stunning_text', $content, '' );
         }
 
         $customize_styles = $ext->get_option_final( 'header-stunning-customize/yes/header-stunning-customize-styles', array() );
