@@ -12,23 +12,21 @@ class FW_Extension_Stunning_Header extends FW_Extension {
 
     public function render() {
         $prefix = '';
-        $ext = fw_ext( 'stunning-header' );
+        $ext    = fw_ext( 'stunning-header' );
 
-         if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
-             $prefix = 'woocommerce_';
+        if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
+            $prefix = 'woocommerce_';
         } elseif ( function_exists( 'tribe_is_event_query' ) && tribe_is_event_query() ) {
-             $prefix = 'events_';
+            $prefix = 'events_';
         } elseif ( function_exists( 'bp_current_component' ) && bp_current_component() ) {
-             $prefix = 'buddypress_';
+            $prefix = 'buddypress_';
         }
-        
+
         $visibility       = $ext->get_option_final( "{$prefix}header-stunning-visibility", 'yes' );
-        $ctype_visibility = $ext->get_option_final( "{$prefix}header-stunning-visibility", 'default', array( 'final-source' => 'current-type' ) );
-       
+        $ctype_visibility = $ext->get_option_final( "header-stunning-visibility", 'default', array( 'final-source' => 'current-type' ) );
+
         $content    = $ext->get_option( "{$prefix}header-stunning-content", array(), 'settings' );
         $customizer = $ext->get_option( "{$prefix}header-stunning-customizer", array(), 'customizer' );
-
-        $ttt = 555;
 
         if ( $visibility !== 'yes' ) {
             return;
@@ -39,31 +37,31 @@ class FW_Extension_Stunning_Header extends FW_Extension {
         $bg_image_default = 'url(' . get_template_directory_uri() . '/images/header-stunning-1.png)';
 
         $customize_content = $ext->get_option_final( 'header-stunning-customize/yes/header-stunning-customize-content', array() );
-        if ( fw_akg( 'customize', $customize_content, 'no' ) === 'yes' ) {
+        if ( fw_akg( 'customize', $customize_content, 'no' ) === 'yes' && $ctype_visibility !== 'default' ) {
             $bottom_image     = fw_akg( 'yes/header-stunning-content-popup/stunning_bottom_image/url', $customize_content, '' );
             $title_show       = fw_akg( 'yes/header-stunning-content-popup/stunning_title_show/show', $customize_content, 'yes' );
             $breadcrumbs_show = fw_akg( 'yes/header-stunning-content-popup/stunning_breadcrumbs_show', $customize_content, 'yes' );
             $title_text       = fw_akg( 'yes/header-stunning-content-popup/stunning_title_show/yes/title', $customize_content, '' );
             $text             = fw_akg( 'yes/header-stunning-content-popup/stunning_text', $customize_content, '' );
         } else {
-            $bottom_image     = fw_akg( 'stunning_bottom_image/url', $content, '' );
-            $title_show       = fw_akg( 'stunning_title_show/show', $content, 'yes' );
-            $breadcrumbs_show = fw_akg( 'stunning_breadcrumbs_show', $content, 'yes' );
-            $title_text       = fw_akg( 'stunning_title_show/yes/title', $content, '' );
-            $text             = fw_akg( 'stunning_text', $content, '' );
+            $bottom_image     = fw_akg( 'yes/stunning_bottom_image/url', $content, '' );
+            $title_show       = fw_akg( 'yes/stunning_title_show/show', $content, 'yes' );
+            $breadcrumbs_show = fw_akg( 'yes/stunning_breadcrumbs_show', $content, 'yes' );
+            $title_text       = fw_akg( 'yes/stunning_title_show/yes/title', $content, '' );
+            $text             = fw_akg( 'yes/stunning_text', $content, '' );
         }
 
         $customize_styles = $ext->get_option_final( 'header-stunning-customize/yes/header-stunning-customize-styles', array() );
-        if ( fw_akg( 'customize', $customize_styles, 'no' ) === 'yes' ) {
+        if ( fw_akg( 'customize', $customize_styles, 'no' ) === 'yes' && $ctype_visibility !== 'default' ) {
             $text_align      = fw_akg( 'yes/header-stunning-styles-popup/stunning_text_align', $customize_styles, '' );
-            $bg_animate      = fw_akg( 'yes/header-stunning-styles-popup/stunning_bg_animate', $customize_styles, 'yes' );
+            $bg_animate      = fw_akg( 'yes/header-stunning-styles-popup/stunning_bg_animate_picker/stunning_bg_animate', $customize_styles, 'yes' );
             $bg_animate_type = fw_akg( 'yes/header-stunning-styles-popup/stunning_bg_animate_picker/yes/stunning_bg_animate_type', $customize_styles, 'top-to-bottom' );
             $bg_image        = fw_akg( 'yes/header-stunning-styles-popup/stunning_bg_image/data/css/background-image', $customize_styles, $bg_image_default );
         } else {
-            $text_align      = fw_get_db_customizer_option( 'stunning_text_align', '' );
-            $bg_animate      = fw_get_db_customizer_option( 'stunning_bg_animate', 'yes' );
-            $bg_animate_type = fw_get_db_customizer_option( 'stunning_bg_animate_picker/yes/stunning_bg_animate_type', 'top-to-bottom' );
-            $bg_image        = fw_akg( 'data/css/background-image', fw_get_db_customizer_option( 'stunning_bg_image', '' ), $bg_image_default );
+            $text_align      = fw_akg( 'yes/stunning_text_align', $customizer, '' );
+            $bg_animate      = fw_akg( 'yes/stunning_bg_animate_picker/stunning_bg_animate', $customizer, 'yes' );
+            $bg_animate_type = fw_akg( 'yes/stunning_bg_animate_picker/yes/stunning_bg_animate_type', $customizer, 'top-to-bottom' );
+            $bg_image        = fw_akg( 'data/css/background-image', fw_akg( 'yes/stunning_bg_image', $customizer, '' ), $bg_image_default );
         }
 
         //Add addit classes for container

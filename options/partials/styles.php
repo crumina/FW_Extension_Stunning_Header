@@ -38,24 +38,25 @@ $options = apply_filters( 'crumina_options_stunning_header_styles', array(
             )
         )
     ),
-    'stunning_bg_animate'        => array(
-        'label'        => esc_html__( 'Animate background?', 'crumina' ),
-        'type'         => 'switch',
-        'value'        => 'yes',
-        'left-choice'  => array(
-            'value' => 'no',
-            'label' => esc_html__( 'No', 'crumina' ),
-        ),
-        'right-choice' => array(
-            'value' => 'yes',
-            'label' => esc_html__( 'Yes', 'crumina' ),
-        ),
-    ),
     'stunning_bg_animate_picker' => array(
         'type'    => 'multi-picker',
         'label'   => false,
         'desc'    => false,
-        'picker'  => 'stunning_bg_animate',
+        'picker'  => array(
+            'stunning_bg_animate' => array(
+                'label'        => esc_html__( 'Animate background?', 'crumina' ),
+                'type'         => 'switch',
+                'value'        => 'yes',
+                'left-choice'  => array(
+                    'value' => 'no',
+                    'label' => esc_html__( 'No', 'crumina' ),
+                ),
+                'right-choice' => array(
+                    'value' => 'yes',
+                    'label' => esc_html__( 'Yes', 'crumina' ),
+                ),
+            ),
+        ),
         'choices' => array(
             'yes' => array(
                 'stunning_bg_animate_type' => array(
@@ -70,15 +71,7 @@ $options = apply_filters( 'crumina_options_stunning_header_styles', array(
                     'inline'  => true,
                 )
             ),
-        )
-    ),
-    'stunning_bg_cover_picker' => array(
-        'type'    => 'multi-picker',
-        'label'   => false,
-        'desc'    => false,
-        'picker'  => 'stunning_bg_animate',
-        'choices' => array(
-            'no' => array(
+            'no'  => array(
                 'stunning_bg_cover' => array(
                     'type'         => 'switch',
                     'label'        => esc_html__( 'Expand background', 'crumina' ),
